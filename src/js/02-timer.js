@@ -14,21 +14,21 @@ let convertedTime = {};
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
-  const second = 1000;
-  const minute = second * 60;
-  const hour = minute * 60;
-  const day = hour * 24;
+    const second = 1000;
+    const minute = second * 60;
+    const hour = minute * 60;
+    const day = hour * 24;
 
   // Remaining days
-  const days = Math.floor(ms / day);
+    const days = Math.floor(ms / day);
   // Remaining hours
-  const hours = Math.floor((ms % day) / hour);
+    const hours = Math.floor((ms % day) / hour);
   // Remaining minutes
-  const minutes = Math.floor(((ms % day) % hour) / minute);
+    const minutes = Math.floor(((ms % day) % hour) / minute);
   // Remaining seconds
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+    const seconds = Math.floor((((ms % day) % hour) % minute) / second);
     convertedTime = { days, hours, minutes, seconds };
-  return { days, hours, minutes, seconds };
+    return { days, hours, minutes, seconds };
 }
 
 const options = {
@@ -49,16 +49,16 @@ const options = {
     },
 };
 
-function pad(value) {
+function addLeadingZero(value) {
     return String(value).padStart(2, '0');
 }
 
 function changeTimeOnPage() {
     if (timerTime > 0) {
-        daysOnPage.textContent = pad(convertedTime.days);
-        hoursOnPage.textContent = pad(convertedTime.hours);
-        minutesOnPage.textContent = pad(convertedTime.minutes);
-        secondsOnPage.textContent = pad(convertedTime.seconds);
+        daysOnPage.textContent = addLeadingZero(convertedTime.days);
+        hoursOnPage.textContent = addLeadingZero(convertedTime.hours);
+        minutesOnPage.textContent = addLeadingZero(convertedTime.minutes);
+        secondsOnPage.textContent = addLeadingZero(convertedTime.seconds);
         timerTime -= 1000;
         convertMs(timerTime);
         console.log('hello');
