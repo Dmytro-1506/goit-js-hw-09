@@ -61,7 +61,6 @@ function changeTimeOnPage() {
         secondsOnPage.textContent = addLeadingZero(convertedTime.seconds);
         timerTime -= 1000;
         convertMs(timerTime);
-        console.log('hello');
     }
     clearInterval(onClick);
 }

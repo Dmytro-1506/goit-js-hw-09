@@ -22,7 +22,6 @@ delayStep.addEventListener('input', () => {
 let amountNum = 0;
 amount.addEventListener('input', () => {
   amountNum = Number(amount.value);
-  console.log(amountNum);
 })
 
 function counter(interval, quantity) {
@@ -54,10 +53,8 @@ form.addEventListener('submit', (e) => {
   e.preventDefault();
   
   setTimeout(() => {
-    console.log('this is timeout');
     createPromise(positionNum, firstDelayNum);
     intervalId = setInterval(() => {
-      console.log('this is interval', delayStepNum);
         counter(delayStepNum, amountNum);
       }, delayStepNum);
   } , firstDelayNum);
