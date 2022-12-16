@@ -25,37 +25,48 @@ amount.addEventListener('input', () => {
 })
 
 function counter(interval, quantity) {
-  if (quantity > 1) {
+  if (quantity >= 1) {
+    createPromise(positionNum, delayNum);
+    delayNum += interval;
     amountNum -= 1;
     positionNum += 1;
-    delayNum += interval;
-    createPromise(positionNum, delayNum);
     return
   }
-  clearInterval(intervalId);
 }
 
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.5;
 
-    if (shouldResolve) {
-    // Fulfill
-    Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
-  } else {
-    // Reject
-    Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (shouldResolve) {
+        resolve(Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`));
+      } else {
+        reject(Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`));
+      }
+    }, delayStepNum);
+  });
+
+  return promise
+    .then(() => {
+      if (amountNum >= 1) {
+        counter(delayStepNum, amountNum);
+      }
     }
+      )
+    .catch(() => {
+      if (amountNum >= 1) {
+        counter(delayStepNum, amountNum);
+      }
+    }
+    )
 }
 
-let intervalId = null;
-
 form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  
+    e.preventDefault();
+
   setTimeout(() => {
-    createPromise(positionNum, firstDelayNum);
-    intervalId = setInterval(() => {
-        counter(delayStepNum, amountNum);
-      }, delayStepNum);
-  } , firstDelayNum);
-})
+    counter(delayStepNum, amountNum);
+    }, firstDelayNum);
+    
+  });
