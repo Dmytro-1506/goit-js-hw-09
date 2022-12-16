@@ -11,7 +11,6 @@ let delayNum = 0;
 let firstDelayNum = 0;
 firstDelay.addEventListener('input', () => {
   firstDelayNum = Number(firstDelay.value);
-  delayNum = Number(firstDelay.value);
 })
 
 let delayStepNum = 0;
