@@ -26,11 +26,21 @@ amount.addEventListener('input', () => {
 
 function counter(interval, quantity) {
   if (quantity >= 1) {
-    createPromise(positionNum, delayNum);
+    createPromise(positionNum, delayNum).then(() => {
+      if (amountNum >= 1) {
+        counter(delayStepNum, amountNum);
+      }
+    }
+      )
+    .catch(() => {
+      if (amountNum >= 1) {
+        counter(delayStepNum, amountNum);
+      }
+    }
+    );
     delayNum += interval;
     amountNum -= 1;
     positionNum += 1;
-    return
   }
 }
 
@@ -47,19 +57,7 @@ function createPromise(position, delay) {
     }, delayStepNum);
   });
 
-  return promise
-    .then(() => {
-      if (amountNum >= 1) {
-        counter(delayStepNum, amountNum);
-      }
-    }
-      )
-    .catch(() => {
-      if (amountNum >= 1) {
-        counter(delayStepNum, amountNum);
-      }
-    }
-    )
+  return promise;
 }
 
 form.addEventListener('submit', (e) => {
