@@ -11,7 +11,7 @@ const secondsOnPage = document.querySelector('span[data-seconds]');
 
 let timerTime = 0;
 let convertedTime = {};
-let nowTime = null;
+let intervalId = null;
 
 const options = {
     enableTime: true,
@@ -19,6 +19,7 @@ const options = {
     defaultDate: new Date(),
     minuteIncrement: 1,
   onClose(selectedDates) {
+    let nowTime = options.defaultDate.getTime();
     let selectedTime = selectedDates[0].getTime();
     if (nowTime <= selectedTime) {
       button.removeAttribute('disabled');
@@ -32,14 +33,16 @@ const options = {
 };
 
 const onClick = () => {
-  setInterval(changeTimeOnPage, 1000);
+  intervalId = setInterval(changeTimeOnPage, 1000);
   button.setAttribute('disabled', 'disabled');
 }
 
 input.addEventListener('focus', () => {
+  clearTimer();
   flatpickr(input, options);
-  nowTime = options.defaultDate.getTime();
 })
+
+button.addEventListener('click', onClick);
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -57,7 +60,6 @@ function convertMs(ms) {
   // Remaining seconds
     const seconds = Math.floor((((ms % day) % hour) % minute) / second);
     convertedTime = { days, hours, minutes, seconds };
-    return { days, hours, minutes, seconds };
 }
 
 function addLeadingZero(value) {
@@ -65,15 +67,25 @@ function addLeadingZero(value) {
 }
 
 function changeTimeOnPage() {
-    if (timerTime > 0) {
-        daysOnPage.textContent = addLeadingZero(convertedTime.days);
-        hoursOnPage.textContent = addLeadingZero(convertedTime.hours);
-        minutesOnPage.textContent = addLeadingZero(convertedTime.minutes);
-        secondsOnPage.textContent = addLeadingZero(convertedTime.seconds);
-        timerTime -= 1000;
-        convertMs(timerTime);
-    }
-    clearInterval(onClick);
+  if (timerTime > 0) {
+    daysOnPage.textContent = addLeadingZero(convertedTime.days);
+    hoursOnPage.textContent = addLeadingZero(convertedTime.hours);
+    minutesOnPage.textContent = addLeadingZero(convertedTime.minutes);
+    secondsOnPage.textContent = addLeadingZero(convertedTime.seconds);
+    timerTime -= 1000;
+    convertMs(timerTime);
+  } else {
+    clearInterval(intervalId);
+  }
 }
 
-button.addEventListener('click', onClick);
+function clearTimer() {
+  clearInterval(intervalId);
+  timerTime = 0;
+  convertedTime = {};
+  nowTime = null;
+  daysOnPage.textContent = '00';
+  hoursOnPage.textContent = '00';
+  minutesOnPage.textContent = '00';
+  secondsOnPage.textContent = '00';
+}
