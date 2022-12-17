@@ -38,7 +38,9 @@ const onClick = () => {
 }
 
 input.addEventListener('focus', () => {
-  clearTimer();
+  if (timerTime > 0) {
+    clearTimer();
+  }
   flatpickr(input, options);
 })
 
