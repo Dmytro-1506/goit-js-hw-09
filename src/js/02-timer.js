@@ -83,7 +83,6 @@ function clearTimer() {
   clearInterval(intervalId);
   timerTime = 0;
   convertedTime = {};
-  nowTime = null;
   daysOnPage.textContent = '00';
   hoursOnPage.textContent = '00';
   minutesOnPage.textContent = '00';
